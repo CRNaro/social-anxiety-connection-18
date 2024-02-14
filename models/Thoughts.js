@@ -31,4 +31,6 @@ const thoughtsSchema = new Schema(
 }
 );
 
+const Thoughts = model('Thought', thoughtsSchema);
+
 module.exports = thoughtsSchema;
