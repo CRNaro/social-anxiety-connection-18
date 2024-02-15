@@ -45,7 +45,7 @@ exports.updateThought = async (req, res) => {
 //delete thought
 exports.deleteThought = async (req, res) => {
     try{
-        const thoughtData = await Thought.findOneAndDelete({ _id: req.params.id });
+        const thoughtData = await Thought.findOneAndDelete({ id: req.params.id });
         res.json(thoughtData);
     } catch (err) {
         res.status(400).json(err);
@@ -54,7 +54,7 @@ exports.deleteThought = async (req, res) => {
 // get all reactions
 exports.getReactions = async (req, res) => {
     try {
-        const thoughtData = await Thought.findOne({ _id: req.params.thoughtId });
+        const thoughtData = await Thought.findOne({ id: req.params.thoughtId });
         res.json(thoughtData.reactions);
     } catch (err) {
         res.status(400).json(err);
@@ -63,7 +63,7 @@ exports.getReactions = async (req, res) => {
 // get reaction by id
 exports.getReactionById = async (req, res) => {
     try {
-        const thoughtData = await Thought.findOne({ _id: req.params.thoughtId });
+        const thoughtData = await Thought.findOne({ id: req.params.thoughtId });
         const reaction = thoughtData.reactions.filter(
             (reaction) => reaction.reactionId === req.params.reactionId
         );
@@ -77,7 +77,7 @@ exports.getReactionById = async (req, res) => {
 exports.createReaction = async (req, res) => {
     try {
         const thoughtData = await Thought.findOneAndUpdate(
-            { _id: req.params.thoughtId },
+            { id: req.params.thoughtId },
             { $addToSet: { reactions: req.body } },
             { new: true }
         );
@@ -90,7 +90,7 @@ exports.createReaction = async (req, res) => {
 exports.updateReaction = async (req, res) => {
     try {
         const thoughtData = await Thought.findOneAndUpdate(
-            { _id: req.params.thoughtId },
+            { id: req.params.thoughtId },
             { $set: { 'reactions.$[reaction]': req.body } },
             { arrayFilters: [{ 'reaction.reactionId': req.params.reactionId }], new: true }
         );
@@ -104,7 +104,7 @@ exports.updateReaction = async (req, res) => {
 exports.deleteReaction = async (req, res) => {
     try {
         const thoughtData = await Thought.findOneAndUpdate(
-            { _id: req.params.thoughtId },
+            { id: req.params.thoughtId },
             { $pull: { reactions: { reactionId: req.params.reactionId } } },
             { new: true }
         );
