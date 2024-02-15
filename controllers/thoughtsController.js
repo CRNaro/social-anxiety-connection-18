@@ -51,8 +51,30 @@ exports.deleteThought = async (req, res) => {
         res.status(400).json(err);
     }
 };
+// get all reactions
+exports.getReactions = async (req, res) => {
+    try {
+        const thoughtData = await Thought.findOne({ _id: req.params.thoughtId });
+        res.json(thoughtData.reactions);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+};
+// get reaction by id
+exports.getReactionById = async (req, res) => {
+    try {
+        const thoughtData = await Thought.findOne({ _id: req.params.thoughtId });
+        const reaction = thoughtData.reactions.filter(
+            (reaction) => reaction.reactionId === req.params.reactionId
+        );
+        res.json(reaction);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+};
+
 //add reaction
-exports.addReaction = async (req, res) => {
+exports.createReaction = async (req, res) => {
     try {
         const thoughtData = await Thought.findOneAndUpdate(
             { _id: req.params.thoughtId },
@@ -64,6 +86,20 @@ exports.addReaction = async (req, res) => {
         res.status(400).json(err);
     }
 };
+//update reaction
+exports.updateReaction = async (req, res) => {
+    try {
+        const thoughtData = await Thought.findOneAndUpdate(
+            { _id: req.params.thoughtId },
+            { $set: { 'reactions.$[reaction]': req.body } },
+            { arrayFilters: [{ 'reaction.reactionId': req.params.reactionId }], new: true }
+        );
+        res.json(thoughtData);
+    } catch (err) {
+        res.status(400).json(err);
+    }
+};
+
 //delete reaction
 exports.deleteReaction = async (req, res) => {
     try {
@@ -78,15 +114,15 @@ exports.deleteReaction = async (req, res) => {
     }
 };
 
-router.route('/')
-    .get(thoughtsController.getAllThoughts)
-    .post(thoughtsController.createThought);
+// router.route('/')
+//     .get(thoughtsController.getAllThoughts)
+//     .post(thoughtsController.createThought);
 
-router.route('/:id')    
-    .get(thoughtsController.getThoughtById)
-    .put(thoughtsController.updateThought)
-    .delete(thoughtsController.deleteThought);
+// router.route('/:id')    
+//     .get(thoughtsController.getThoughtById)
+//     .put(thoughtsController.updateThought)
+//     .delete(thoughtsController.deleteThought);
 
-router.route('/:thoughtId/reactions')   
-    .post(thoughtsController.addReaction)
-    .delete(thoughtsController.deleteReaction);
+// router.route('/:thoughtId/reactions')   
+//     .post(thoughtsController.addReaction)
+//     .delete(thoughtsController.deleteReaction);

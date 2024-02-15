@@ -14,7 +14,7 @@ const {
     createReaction,
     updateReaction,
     deleteReaction
-} = require('../../controllers/reaction-controller');
+} = require('../../controllers/thoughtsController'); //i think this is connected to my thoughtsController.js
 
 // /api/reactions
 router

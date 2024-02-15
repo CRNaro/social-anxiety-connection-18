@@ -45,17 +45,50 @@ exports.updateUser = async (req, res) => {
 exports.deleteUser = async (req, res) => {
     try {
         const userData = await User.findOneAndDelete({ _id: req.params.id });
+
+        // if user is found and deleted, also delete their thoughts
+        if (user) {
+          await thoughtsSchema.deleteMany({ username: userData.username });
+        }
+
         res.json(userData);
     } catch (err) {
         res.status(400).json(err);
     }
     };
 
-    router.route('/')
-    .get(usersController.getUsers)
-    .post(usersController.createUser);
+    // addFriend
+    exports.addFriend = async (req, res) => {
+        try {
+          const userData = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $addToSet: { friends: req.params.friendId } },
+            { new: true }
+          );
+          res.json(userData);
+        } catch (err) {
+          res.status(400).json(err);
+        }
+      };
+      // deleteFriend
+      exports.deleteFriend = async (req, res) => {
+        try {
+          const userData = await User.findOneAndUpdate(
+            { _id: req.params.userId },
+            { $pull: { friends: req.params.friendId } },
+            { new: true }
+          );
+          res.json(userData);
+        } catch (err) {
+          res.status(400).json(err);
+        }
+      };
 
-    router.route('/:id')
-    .get(usersController.getUserById)
-    .put(usersController.updateUser)
-    .delete(usersController.deleteUser);
+    // router.route('/')
+    // .get(usersController.getUsers)
+    // .post(usersController.createUser);
+
+    // router.route('/:id')
+    // .get(usersController.getUserById)
+    // .put(usersController.updateUser)
+    // .delete(usersController.deleteUser);
