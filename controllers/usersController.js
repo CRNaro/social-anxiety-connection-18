@@ -47,11 +47,12 @@ exports.deleteUser = async (req, res) => {
         const userData = await User.findOneAndDelete({ _id: req.params.id });
 
         // if user is found and deleted, also delete their thoughts
-        if (user) {
-          await thoughtsSchema.deleteMany({ username: userData.username });
+        if (userData) {
+          //await thoughtsSchema.deleteMany({ username: userData.username });
+          res.status(200).json({ message: 'User was deleted successfully', deletedUser: userData});
+        }else {
+            res.status(404).json({ message: 'No user found with this id!' });
         }
-
-        res.json(userData);
     } catch (err) {
         res.status(400).json(err);
     }

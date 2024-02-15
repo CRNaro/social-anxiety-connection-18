@@ -1,4 +1,5 @@
-const { Schema, model } = require('mongoose');
+const { Schema, model, default: mongoose } = require('mongoose');
+//const AutoIncrementFactory = require('mongoose-sequence')(mongoose);
 const bcrypt = require('bcrypt');
 const thoughtsSchema = require('./Thoughts');
 
@@ -29,6 +30,7 @@ const userSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
+      getters: true,
     },
     id: false,
   }
@@ -38,6 +40,8 @@ const userSchema = new Schema(
 userSchema.virtual('friendCount').get(function () {
   return this.friends.length;
 });
+
+//userSchema.plugin(AutoIncrementFactory, { id: 'userId_counter', inc_field: 'userId' });
 
 const User = model('User', userSchema);
 
