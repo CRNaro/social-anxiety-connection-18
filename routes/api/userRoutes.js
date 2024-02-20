@@ -4,6 +4,7 @@
 // a note at the top of the file stating that the route was defined in the corresponding controller file
 
 const router = require('express').Router();
+const thoughtsRouter = require('./thoughtsRoutes');
 const {
     getUsers,
     getUserById,
@@ -13,6 +14,7 @@ const {
     addFriend,
     deleteFriend
 } = require('../../controllers/usersController');
+
 
 // /api/users
 router.route('/')
@@ -29,5 +31,8 @@ router.route('/:userId')
  router.route('/:userId/friends/:friendId')
     .post(addFriend)
     .delete(deleteFriend);   
+
+// /api/users/:userId/thoughts
+router.use('/:userId/thoughts', thoughtsRouter);
 
 module.exports = router;

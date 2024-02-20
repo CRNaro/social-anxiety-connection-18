@@ -1,7 +1,8 @@
 const { Schema, model, default: mongoose } = require('mongoose');
 //const AutoIncrementFactory = require('mongoose-sequence')(mongoose);
 const bcrypt = require('bcrypt');
-const thoughtsSchema = require('./Thoughts');
+const Thoughts = require('./Thoughts');
+
 
 // schema to create user
 const userSchema = new Schema(
@@ -19,7 +20,12 @@ const userSchema = new Schema(
       unique: true,
       match: [/.+@.+\..+/],
     },
-    thoughts: [thoughtsSchema],
+    thoughts: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: 'Thought',   
+    }
+ ],    // was thoughtsSchema
     friends: [
       {
         type: Schema.Types.ObjectId,
@@ -30,7 +36,7 @@ const userSchema = new Schema(
   {
     toJSON: {
       virtuals: true,
-      getters: true,
+      getters: true
     },
     id: false,
   }

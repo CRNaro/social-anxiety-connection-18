@@ -3,21 +3,27 @@ const { Schema, model, Types } = require('mongoose');
 
 const thoughtsSchema = new Schema(
 {
-    thoughtsId: {
-        type: Schema.Types.ObjectId,
-        default: () => new Types.ObjectId()
-    },
-    thoughtsText: {
+    // thoughtsId: {
+    //     type: Schema.Types.ObjectId,
+    //     default: () => new Types.ObjectId()
+    // },
+    
+    thoughtText: {
         type: String,
         required: true,
-        min_length: 1,
-        max_length: 280
+        minlength: 1,
+        maxlength: 280
     },
     username: {
         type: String,
         required: true
     },
-    createdAt: {
+    userId:{
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
+   createdAt: {
         type: Date,
         default: Date.now
     },
@@ -42,6 +48,6 @@ thoughtsSchema.virtual('reactionCount').get(function () {
     return this.reactions.length;
 });
 
-const Thoughts = model('Thought', thoughtsSchema);
+const Thoughts = model('Thoughts', thoughtsSchema);
 
-module.exports = thoughtsSchema;
+module.exports = Thoughts;  //  was thoughtsSchema
