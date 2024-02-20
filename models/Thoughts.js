@@ -1,13 +1,9 @@
 // Thoughts.js will be used as a post for the User to post their thoughts and ideas in
 const { Schema, model, Types } = require('mongoose');
+const ReactionSchema = require('./Reaction');
 
 const thoughtsSchema = new Schema(
 {
-    // thoughtsId: {
-    //     type: Schema.Types.ObjectId,
-    //     default: () => new Types.ObjectId()
-    // },
-    
     thoughtText: {
         type: String,
         required: true,
@@ -27,12 +23,7 @@ const thoughtsSchema = new Schema(
         type: Date,
         default: Date.now
     },
-    reactions: [
-        {
-            type: Schema.Types.ObjectId,
-            ref: 'Reaction'
-        }
-    ]
+    reactions: [ReactionSchema]
 },
 {
     toJSON: {
