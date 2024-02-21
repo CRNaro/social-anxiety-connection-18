@@ -29,7 +29,7 @@ To use the social network API, users can perform various actions such as creatin
 ### Installation
 1. Clone the repository to your local machine:
 
-git clone https://github.com/yourusername/social-anxiety-connection-18.git
+git clone https://github.com/crnaro/social-anxiety-connection-18.git
 
 2. Navigate into the project directory:
 
@@ -48,7 +48,7 @@ npm start
 The server will start, and the Mongoose models will sync to the MongoDB database.
 
 ### Walkthrough Video
-A walkthrough video that demonstrates the functionality of the social media API and the technical acceptance criteria is available at [Insert Link Here].
+A walkthrough video that demonstrates the functionality of the social media API and the technical acceptance criteria is available at [Walkthrough Video](https://github.com/CRNaro/social-anxiety-connection-18/blob/main/assets/social-anxiety-connection.webm).
 
 ## Acknowledgements
 Referenced following websites:
