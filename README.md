@@ -48,7 +48,7 @@ npm start
 The server will start, and the Mongoose models will sync to the MongoDB database.
 
 ### Walkthrough Video
-A walkthrough video that demonstrates the functionality of the social media API and the technical acceptance criteria is available at [Walkthrough Video](https://github.com/CRNaro/social-anxiety-connection-18/blob/main/assets/social-anxiety-connection.webm).
+A walkthrough video that demonstrates the functionality of the social media API and the technical acceptance criteria is available at [Walkthrough Video](/Users/chris/Desktop/social-anxiety-connection-18/assets/social-anxiety-connection.webm).
 
 ## Acknowledgements
 Referenced following websites:
