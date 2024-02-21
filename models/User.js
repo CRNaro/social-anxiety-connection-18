@@ -1,8 +1,6 @@
-const { Schema, model, default: mongoose } = require('mongoose');
-//const AutoIncrementFactory = require('mongoose-sequence')(mongoose);
-const bcrypt = require('bcrypt');
-const Thoughts = require('./Thoughts');
-
+const { Schema, model, default: mongoose } = require("mongoose");
+const bcrypt = require("bcrypt");
+const Thoughts = require("./Thoughts");
 
 // schema to create user
 const userSchema = new Schema(
@@ -23,32 +21,30 @@ const userSchema = new Schema(
     thoughts: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'Thought',   
-    }
- ],    // was thoughtsSchema
+        ref: "Thought",
+      },
+    ], // was thoughtsSchema
     friends: [
       {
         type: Schema.Types.ObjectId,
-        ref: 'User',
+        ref: "User",
       },
     ],
   },
   {
     toJSON: {
       virtuals: true,
-      getters: true
+      getters: true,
     },
     id: false,
   }
 );
 
 // Create a virtual called friendCount that retrieves the length of the user's friends array field on query.
-userSchema.virtual('friendCount').get(function () {
+userSchema.virtual("friendCount").get(function () {
   return this.friends.length;
 });
 
-//userSchema.plugin(AutoIncrementFactory, { id: 'userId_counter', inc_field: 'userId' });
-
-const User = model('User', userSchema);
+const User = model("User", userSchema);
 
 module.exports = User;

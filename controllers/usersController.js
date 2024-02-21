@@ -1,6 +1,6 @@
 // Logic for routes related to the users
-const User = require('../models/User');
-const Thought = require('../models/Thoughts');
+const User = require("../models/User");
+const Thought = require("../models/Thoughts");
 
 // get all users
 exports.getUsers = async (_req, res) => {
@@ -16,12 +16,12 @@ exports.getUserById = async (req, res) => {
   try {
     const userData = await User.findOne({ _id: req.params.userId });
     if (!userData) {
-      res.status(404).json({ message: 'No user found with this id!' });
+      res.status(404).json({ message: "No user found with this id!" });
       return;
     } else {
-    res.json(userData);
-  } 
-} catch (err) {
+      res.json(userData);
+    }
+  } catch (err) {
     res.status(400).json(err);
   }
 };
@@ -43,10 +43,10 @@ exports.updateUser = async (req, res) => {
       { new: true }
     );
     if (!userData) {
-      res.status(404).json({ message: 'No user found with this id!' });
+      res.status(404).json({ message: "No user found with this id!" });
       return;
     } else {
-    res.json(userData);
+      res.json(userData);
     }
   } catch (err) {
     res.status(400).json(err);
@@ -59,13 +59,17 @@ exports.deleteUser = async (req, res) => {
 
     // if user is found and deleted, also delete their thoughts
     if (userData) {
-      if (userData.thoughts && userData.thoughts.length > 0) {   //!!!  JUST CHANGED THIS BEFORE LEAVING !!!!
-      await Thought.deleteMany({ _id: { $in:userData.thoughts }  //thoughtsSchema.deleteMany({ username: userData .username });
-      });
+      if (userData.thoughts && userData.thoughts.length > 0) {
+        await Thought.deleteMany({ _id: { $in: userData.thoughts } });
       }
-      res.status(200).json({ message: 'User was deleted successfully', deletedUser: userData});
-    }else {
-      res.status(404).json({ message: 'No user found with this id!' });
+      res
+        .status(200)
+        .json({
+          message: "User was deleted successfully",
+          deletedUser: userData,
+        });
+    } else {
+      res.status(404).json({ message: "No user found with this id!" });
     }
   } catch (err) {
     res.status(400).json(err);
@@ -87,9 +91,16 @@ exports.addFriend = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!userUpdate || !friendUpdate) {
-      res.status(404).json({ message: 'No user found with this id!' });
-    } else {  // update the response to include the userUpdate and friendUpdate
-      res.status(200).json({ message: 'Users are now friends!! :)', data: userUpdate, friendUpdate });
+      res.status(404).json({ message: "No user found with this id!" });
+    } else {
+      // update the response to include the userUpdate and friendUpdate
+      res
+        .status(200)
+        .json({
+          message: `${userUpdate.username} and ${friendUpdate.username} are now friends!! :)`,
+          data: userUpdate,
+          friendUpdate,
+        });
     }
   } catch (err) {
     res.status(500).json(err);
@@ -111,22 +122,16 @@ exports.deleteFriend = async (req, res) => {
       { new: true, runValidators: true }
     );
     if (!userUpdate || !friendUpdate) {
-      res.status(404).json({ message: 'No user found with this id!' });
+      res.status(404).json({ message: "No user found with this id!" });
       return;
     }
-    res.status(200).json({ message: 'Users are no longer friends! :(', data: { userUpdate, friendUpdate } });
+    res
+      .status(200)
+      .json({
+        message: `${userUpdate.username} and ${friendUpdate.username} are no longer friends! :(`,
+        data: { userUpdate, friendUpdate },
+      });
   } catch (err) {
     res.status(500).json(err);
   }
 };
-    
-      
-
-    // router.route('/')
-    // .get(usersController.getUsers)
-    // .post(usersController.createUser);
-
-    // router.route('/:id')
-    // .get(usersController.getUserById)
-    // .put(usersController.updateUser)
-    // .delete(usersController.deleteUser);
